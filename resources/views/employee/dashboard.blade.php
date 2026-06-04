@@ -3,188 +3,310 @@
 @section('title', 'Dashboard')
 
 @section('content')
+
     <style>
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #5A2D91;
+            --secondary-color: #28C7D9;
+            --accent-color: #E91E8F;
+            --dark-gray: #333333;
+            --light-gray: #F5F6F8;
+            --border-color: #e5e7eb;
+            --text-muted: #666666;
         }
 
-        /* Hero Section */
+        * {
+            --bs-font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+        }
+
+        .dashboard-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* ===== HERO SECTION ===== */
         .hero-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
             align-items: center;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
+            padding: 0;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2.75rem;
+            font-weight: 800;
             color: var(--dark-gray);
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.5px;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.75px;
         }
 
         .hero-content p {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 400;
         }
 
-        .sustainability-score-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .sustainability-score-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .score-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .score-header h3 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0;
-        }
-
-        .score-badge {
-            background: linear-gradient(135deg, #5A2D91 0%, #E91E8F 100%);
+        .btn-checkin {
+            background: var(--primary-color);
             color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(90, 45, 145, 0.2);
+            width: fit-content;
+        }
+
+        .btn-checkin:hover {
+            background: #4a2173;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(90, 45, 145, 0.3);
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f0f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* ===== SCORE CARDS SECTION ===== */
+        .score-section {
+            margin-bottom: 5rem;
         }
 
         .score-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
-        .score-item {
-            text-align: center;
+        .score-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .score-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 0.5rem 0;
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-color);
+        }
+
+        .score-card:nth-child(2)::before {
+            background: var(--secondary-color);
+        }
+
+        .score-card:nth-child(3)::before {
+            background: var(--accent-color);
+        }
+
+        .score-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .score-card-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
             display: block;
         }
 
-        .score-label {
-            font-size: 0.75rem;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
+        .score-card-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+            line-height: 1;
         }
 
-        /* Actions Section */
-        .actions-section {
-            margin-bottom: 4rem;
+        .score-card:nth-child(2) .score-card-value {
+            color: var(--secondary-color);
         }
 
+        .score-card:nth-child(3) .score-card-value {
+            color: var(--accent-color);
+        }
+
+        .score-card-sublabel {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ===== SECTION TITLE ===== */
         .section-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--dark-gray);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+        }
+
+        /* ===== ACTIONS SECTION ===== */
+        .actions-section {
+            margin-bottom: 5rem;
         }
 
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
         }
 
         .action-card {
             background: white;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 1.75rem;
-            text-align: center;
+            overflow: hidden;
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .action-card:hover {
             border-color: var(--primary-color);
             box-shadow: 0 8px 24px rgba(90, 45, 145, 0.15);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
         }
 
-        .action-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
+        .action-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f0f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #999;
+            overflow: hidden;
         }
 
-        .action-card h4 {
-            font-size: 1rem;
-            font-weight: 600;
+        .action-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .action-content {
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-title {
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--dark-gray);
             margin-bottom: 0.5rem;
+            line-height: 1.3;
         }
 
-        .action-card p {
-            font-size: 0.875rem;
-            color: #999;
+        .action-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
             margin-bottom: 1rem;
+            flex: 1;
+            line-height: 1.5;
         }
 
-        .points-badge {
+        .action-points {
             display: inline-block;
             background: var(--secondary-color);
             color: white;
-            padding: 0.4rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
         }
 
-        /* Events Section */
+        /* ===== EVENTS SECTION ===== */
         .events-section {
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
         }
 
         .events-carousel {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             overflow-x: auto;
-            padding-bottom: 0.5rem;
+            padding: 1rem 0;
             scroll-behavior: smooth;
         }
 
         .events-carousel::-webkit-scrollbar {
-            height: 4px;
+            height: 6px;
         }
 
         .events-carousel::-webkit-scrollbar-track {
-            background: #f0f0f0;
+            background: var(--light-gray);
             border-radius: 10px;
         }
 
@@ -194,75 +316,98 @@
         }
 
         .event-card {
-            flex: 0 0 300px;
+            flex: 0 0 320px;
             background: white;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .event-card:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
         }
 
-        .event-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #f0f0f0;
+        .event-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f0f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #999;
+            overflow: hidden;
         }
 
-        .event-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.75rem;
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .event-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 0.5rem;
+        .event-content {
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .event-category {
+        .event-badge {
             display: inline-block;
             background: var(--light-gray);
             color: var(--primary-color);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            line-height: 1.3;
         }
 
         .event-details {
-            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex: 1;
         }
 
-        .event-detail {
+        .event-detail-item {
             display: flex;
             align-items: flex-start;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
-        .event-detail:last-child {
-            margin-bottom: 0;
-        }
-
-        .event-detail strong {
-            color: var(--dark-gray);
-            min-width: 60px;
-        }
-
-        .event-detail span {
-            color: #666;
+        .event-detail-icon {
+            width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .event-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #f0f0f0;
+            margin-top: auto;
         }
 
         .btn-join {
@@ -270,38 +415,61 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem;
             border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-join:hover {
-            background: var(--accent-color);
+            background: #4a2173;
             transform: scale(1.02);
         }
 
-        /* Leaderboard Section */
+        /* ===== LEADERBOARD SECTION ===== */
         .leaderboard-section {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
         .leaderboard-container {
             background: white;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
         .leaderboard-header {
-            padding: 1.75rem;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: linear-gradient(to right, #fafbfc, #ffffff);
+        }
+
+        .leaderboard-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .view-all-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-all-link:hover {
+            color: var(--accent-color);
         }
 
         .leaderboard-body {
@@ -310,11 +478,11 @@
 
         .leaderboard-item {
             display: grid;
-            grid-template-columns: 80px 1fr 100px;
+            grid-template-columns: 60px 1fr 1fr 120px;
             align-items: center;
             gap: 1.5rem;
-            padding: 1.25rem 1.75rem;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
             transition: background 0.2s ease;
         }
 
@@ -327,87 +495,99 @@
         }
 
         .leaderboard-item.current-user {
-            background: rgba(90, 45, 145, 0.04);
-            border-left: 3px solid var(--primary-color);
-            padding-left: calc(1.75rem - 3px);
+            background: rgba(90, 45, 145, 0.05);
         }
 
         .rank-badge {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary-color);
-            height: 50px;
-            width: 50px;
-        }
-
-        .rank-badge.gold {
-            color: #ffc107;
-            font-size: 1.5rem;
-        }
-
-        .rank-badge.silver {
-            color: #c0c0c0;
-            font-size: 1.5rem;
-        }
-
-        .rank-badge.bronze {
-            color: #cd7f32;
-            font-size: 1.5rem;
-        }
-
-        .rank-badge.number {
-            background: var(--light-gray);
+            font-weight: 800;
+            font-size: 1.1rem;
             color: var(--dark-gray);
+            height: 48px;
+            width: 48px;
+            background: var(--light-gray);
             border-radius: 50%;
+        }
+
+        .rank-badge.rank-1 {
+            background: linear-gradient(135deg, #ffc107 0%, #ffb700 100%);
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .rank-badge.rank-2 {
+            background: linear-gradient(135deg, #c0c0c0 0%, #b0b0b0 100%);
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .rank-badge.rank-3 {
+            background: linear-gradient(135deg, #cd7f32 0%, #b86e1f 100%);
+            color: #fff;
+            font-size: 1.3rem;
         }
 
         .employee-info h5 {
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--dark-gray);
-            margin-bottom: 0.25rem;
+            margin: 0 0 0.25rem 0;
         }
 
         .employee-dept {
-            font-size: 0.8rem;
-            color: #999;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
         .points-display {
             text-align: right;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 800;
+            font-size: 1.3rem;
             color: var(--primary-color);
         }
 
-        .view-all-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 600;
-            transition: color 0.3s ease;
+        .empty-state {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
         }
 
-        .view-all-link:hover {
-            color: var(--accent-color);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
             .hero-section {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+
+            .hero-image {
+                height: 350px;
+            }
+
+            .leaderboard-item {
+                grid-template-columns: 50px 1fr 100px;
+                gap: 1rem;
+                padding: 1.25rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1.5rem 1rem;
             }
 
             .hero-content h1 {
                 font-size: 2rem;
             }
 
+            .hero-image {
+                height: 280px;
+            }
+
             .actions-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                grid-template-columns: 1fr;
             }
 
             .events-carousel {
@@ -422,21 +602,25 @@
             }
 
             .leaderboard-item {
-                grid-template-columns: 50px 1fr 80px;
-                gap: 1rem;
+                grid-template-columns: 40px 1fr 80px;
+                gap: 0.75rem;
                 padding: 1rem 1.25rem;
             }
 
             .rank-badge {
                 height: 40px;
                 width: 40px;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
 
-            .rank-badge.gold,
-            .rank-badge.silver,
-            .rank-badge.bronze {
-                font-size: 1.2rem;
+            .rank-badge.rank-1,
+            .rank-badge.rank-2,
+            .rank-badge.rank-3 {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -445,47 +629,49 @@
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h1>Welcome back, {{ auth()->user()->name }}</h1>
-                <p>Sustainability starts with small daily actions. Track your progress and inspire your team to build a greener workplace together.</p>
-                <a href="{{ route('checkins.create') }}" class="btn btn-primary mt-3">
-                    <i class="bi bi-check-circle"></i> Submit Today's Check-In
+                <h1>Building a Sustainable Workplace Together</h1>
+                <p>Track your sustainable actions, participate in wellness activities, and contribute to a greener workplace culture.</p>
+                <a href="{{ route('checkins.create') }}" class="btn-checkin">
+                    <i class="bi bi-check-circle"></i> Check In Today
                 </a>
             </div>
 
-            <div class="sustainability-score-card">
-                <div class="score-header">
-                    <h3>Your Sustainability Score</h3>
-                    <span class="score-badge">Active</span>
+            <div class="hero-image">
+                <div class="hero-image-placeholder">
+                    [Sustainability Hero Image]
                 </div>
-                <div class="score-grid">
-                    <div class="score-item">
-                        <span class="score-value">{{ $totalPoints }}</span>
-                        <span class="score-label">Total Points</span>
-                    </div>
-                    <div class="score-item">
-                        <span class="score-value">
-                            @if(is_numeric($userRank))
-                                #{{ $userRank }}
-                            @else
-                                —
-                            @endif
-                        </span>
-                        <span class="score-label">Your Rank</span>
-                    </div>
-                    <div class="score-item">
-                        <span class="score-value">
-                            @if(is_numeric($deptRank))
-                                #{{ $deptRank }}
-                            @else
-                                —
-                            @endif
-                        </span>
-                        <span class="score-label">Dept Rank</span>
-                    </div>
-                    <div class="score-item">
-                        <span class="score-value" style="font-size: 1.2rem; line-height: 2rem;">{{ substr(auth()->user()->department, 0, 12) }}</span>
-                        <span class="score-label">Department</span>
-                    </div>
+            </div>
+        </div>
+
+        <!-- Score Cards Section -->
+        <div class="score-section">
+            <div class="score-grid">
+                <div class="score-card">
+                    <span class="score-card-label">Total Points</span>
+                    <span class="score-card-value">{{ $totalPoints }}</span>
+                    <span class="score-card-sublabel">Your sustainability score</span>
+                </div>
+                <div class="score-card">
+                    <span class="score-card-label">Your Rank</span>
+                    <span class="score-card-value">
+                        @if(is_numeric($userRank))
+                            #{{ $userRank }}
+                        @else
+                            —
+                        @endif
+                    </span>
+                    <span class="score-card-sublabel">Among all employees</span>
+                </div>
+                <div class="score-card">
+                    <span class="score-card-label">Department Rank</span>
+                    <span class="score-card-value">
+                        @if(is_numeric($deptRank))
+                            #{{ $deptRank }}
+                        @else
+                            —
+                        @endif
+                    </span>
+                    <span class="score-card-sublabel">{{ auth()->user()->department }}</span>
                 </div>
             </div>
         </div>
@@ -493,42 +679,58 @@
         <!-- Sustainability Actions -->
         <div class="actions-section">
             <h2 class="section-title">
-                <i class="bi bi-tree"></i> Sustainability Actions
+                <i class="bi bi-leaf"></i> Daily Sustainability Actions
             </h2>
             <div class="actions-grid">
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
-                        <span class="action-icon">🥤</span>
-                        <h4>Bring Tumbler</h4>
-                        <p>Use a reusable water bottle</p>
-                        <span class="points-badge">+5 pts</span>
+                        <div class="action-image">
+                            [Reusable Bottle Image]
+                        </div>
+                        <div class="action-content">
+                            <h3 class="action-title">Bring Tumbler</h3>
+                            <p class="action-description">Use a reusable water bottle and reduce plastic waste</p>
+                            <span class="action-points">+5 pts</span>
+                        </div>
                     </div>
                 </a>
 
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
-                        <span class="action-icon">🚴</span>
-                        <h4>Public Transport / Bicycle</h4>
-                        <p>Eco-friendly commute</p>
-                        <span class="points-badge">+10 pts</span>
+                        <div class="action-image">
+                            [Public Transport Image]
+                        </div>
+                        <div class="action-content">
+                            <h3 class="action-title">Public Transport / Bicycle</h3>
+                            <p class="action-description">Choose eco-friendly commuting options</p>
+                            <span class="action-points">+10 pts</span>
+                        </div>
                     </div>
                 </a>
 
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
-                        <span class="action-icon">💪</span>
-                        <h4>Exercise Today</h4>
-                        <p>Stay active and healthy</p>
-                        <span class="points-badge">+15 pts</span>
+                        <div class="action-image">
+                            [Exercise Image]
+                        </div>
+                        <div class="action-content">
+                            <h3 class="action-title">Exercise Today</h3>
+                            <p class="action-description">Stay active and improve your wellness</p>
+                            <span class="action-points">+15 pts</span>
+                        </div>
                     </div>
                 </a>
 
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
-                        <span class="action-icon">🍱</span>
-                        <h4>Bring Lunch Box</h4>
-                        <p>Reusable food container</p>
-                        <span class="points-badge">+5 pts</span>
+                        <div class="action-image">
+                            [Lunch Box Image]
+                        </div>
+                        <div class="action-content">
+                            <h3 class="action-title">Bring Lunch Box</h3>
+                            <p class="action-description">Use reusable containers to minimize waste</p>
+                            <span class="action-points">+5 pts</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -537,43 +739,31 @@
         <!-- Upcoming Events -->
         <div class="events-section">
             <h2 class="section-title">
-                <i class="bi bi-calendar-event"></i> Upcoming Events
+                <i class="bi bi-calendar-event"></i> Upcoming Wellness Events
             </h2>
             @if($upcomingEvents->count() > 0)
                 <div class="events-carousel">
                     @foreach($upcomingEvents as $event)
                         <div class="event-card">
-                            <div class="event-header">
-                                <div class="event-icon">
-                                    @if(strpos($event->category, 'Tennis') !== false)
-                                        🎾
-                                    @elseif(strpos($event->category, 'Padel') !== false)
-                                        🎾
-                                    @elseif(strpos($event->category, 'Soccer') !== false)
-                                        ⚽
-                                    @elseif(strpos($event->category, 'Yoga') !== false)
-                                        🧘
-                                    @elseif(strpos($event->category, 'Pilates') !== false)
-                                        🤸
-                                    @else
-                                        🎉
-                                    @endif
-                                </div>
-                                <h3 class="event-title">{{ $event->title }}</h3>
-                                <span class="event-category">{{ $event->category }}</span>
+                            <div class="event-image">
+                                [{{ $event->category }} Event Image]
                             </div>
-                            <div class="event-details">
-                                <div class="event-detail">
-                                    <strong>📅</strong>
-                                    <span>{{ $event->event_date->format('M d, Y') }}</span>
-                                </div>
-                                <div class="event-detail">
-                                    <strong>🕐</strong>
-                                    <span>{{ $event->event_time->format('H:i') }}</span>
-                                </div>
-                                <div class="event-detail">
-                                    <strong>📍</strong>
-                                    <span>{{ $event->location }}</span>
+                            <div class="event-content">
+                                <span class="event-badge">{{ $event->category }}</span>
+                                <h3 class="event-title">{{ $event->title }}</h3>
+                                <div class="event-details">
+                                    <div class="event-detail-item">
+                                        <span class="event-detail-icon"><i class="bi bi-calendar-event"></i></span>
+                                        <span>{{ $event->event_date->format('M d, Y') }}</span>
+                                    </div>
+                                    <div class="event-detail-item">
+                                        <span class="event-detail-icon"><i class="bi bi-clock"></i></span>
+                                        <span>{{ $event->event_time->format('H:i') }}</span>
+                                    </div>
+                                    <div class="event-detail-item">
+                                        <span class="event-detail-icon"><i class="bi bi-geo-alt"></i></span>
+                                        <span>{{ $event->location }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="event-footer">
@@ -582,14 +772,14 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="mt-3">
+                <div style="margin-top: 1.5rem;">
                     <a href="#" class="view-all-link">
                         View all events <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
             @else
-                <div style="background: var(--light-gray); border-radius: 12px; padding: 2rem; text-align: center; color: #999;">
-                    <p>No upcoming events at the moment. Check back soon!</p>
+                <div class="empty-state">
+                    <p><i class="bi bi-info-circle" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i> No upcoming events at the moment. Check back soon!</p>
                 </div>
             @endif
         </div>
@@ -601,7 +791,7 @@
             </h2>
             <div class="leaderboard-container">
                 <div class="leaderboard-header">
-                    <h3 style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--dark-gray);">Employee Rankings</h3>
+                    <h3>Employee Rankings</h3>
                     <a href="{{ route('leaderboards.individual') }}" class="view-all-link">
                         View full rankings <i class="bi bi-arrow-right"></i>
                     </a>
@@ -610,26 +800,27 @@
                     @if(isset($leaderboard) && $leaderboard->count() > 0)
                         @foreach($leaderboard->take(5) as $index => $employee)
                             <div class="leaderboard-item @if(auth()->user()->id === $employee->id) current-user @endif">
-                                <div class="rank-badge @if($index === 0) gold @elseif($index === 1) silver @elseif($index === 2) bronze @else number @endif">
+                                <div class="rank-badge @if($index === 0) rank-1 @elseif($index === 1) rank-2 @elseif($index === 2) rank-3 @endif">
                                     @if($index === 0)
-                                        🥇
+                                        1
                                     @elseif($index === 1)
-                                        🥈
+                                        2
                                     @elseif($index === 2)
-                                        🥉
+                                        3
                                     @else
                                         {{ $index + 1 }}
                                     @endif
                                 </div>
-                                <div>
-                                    <h5>{{ $employee->name }}@if(auth()->user()->id === $employee->id) <span class="badge bg-primary" style="font-size: 0.7rem;">You</span>@endif</h5>
+                                <div class="employee-info">
+                                    <h5>{{ $employee->name }}@if(auth()->user()->id === $employee->id) <span style="font-size: 0.7rem; background: var(--primary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; margin-left: 0.5rem;">You</span>@endif</h5>
                                     <span class="employee-dept">{{ $employee->department }}</span>
                                 </div>
+                                <div></div>
                                 <div class="points-display">{{ $employee->total_points }} pts</div>
                             </div>
                         @endforeach
                     @else
-                        <div style="padding: 2rem; text-align: center; color: #999;">
+                        <div class="empty-state">
                             <p>Leaderboard data will appear once check-ins are submitted.</p>
                         </div>
                     @endif
@@ -640,7 +831,7 @@
 
     @push('scripts')
         <script>
-            // Smooth scroll for carousel
+            // Smooth scroll for carousel with mouse drag
             const carousel = document.querySelector('.events-carousel');
             if (carousel) {
                 let isDown = false;
@@ -651,14 +842,17 @@
                     isDown = true;
                     startX = e.pageX - carousel.offsetLeft;
                     scrollLeft = carousel.scrollLeft;
+                    carousel.style.cursor = 'grabbing';
                 });
 
                 carousel.addEventListener('mouseleave', () => {
                     isDown = false;
+                    carousel.style.cursor = 'grab';
                 });
 
                 carousel.addEventListener('mouseup', () => {
                     isDown = false;
+                    carousel.style.cursor = 'grab';
                 });
 
                 carousel.addEventListener('mousemove', (e) => {
