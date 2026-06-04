@@ -11,10 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daily_checkins', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    Schema::create('daily_checkins', function (Blueprint $table) {
+        $table->id();
+
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+        $table->date('date');
+
+        $table->boolean('tumbler')->default(false);
+        $table->boolean('public_transport_bicycle')->default(false);
+        $table->boolean('exercise')->default(false);
+        $table->boolean('lunch_box')->default(false);
+
+        $table->integer('total_points')->default(0);
+
+        $table->timestamps();
+    });
     }
 
     /**
