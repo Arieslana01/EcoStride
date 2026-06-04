@@ -267,14 +267,14 @@
 
     <!-- Header -->
     <div class="leaderboard-header">
-        <h1 class="leaderboard-title">🏆 Leaderboard</h1>
+        <h1 class="leaderboard-title">Leaderboard</h1>
         <p class="leaderboard-subtitle">Compete with colleagues and earn recognition for your sustainability efforts!</p>
         <div class="view-toggle">
             <a href="{{ route('leaderboards.individual') }}" class="btn @if(request()->routeIs('leaderboards.individual')) active @endif">
-                👤 Individual
+                Individual
             </a>
             <a href="{{ route('leaderboards.department') }}" class="btn @if(request()->routeIs('leaderboards.department')) active @endif">
-                🏢 Department
+                Department
             </a>
         </div>
     </div>
@@ -307,7 +307,7 @@
     <!-- Leaderboard List -->
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">📊 Top Performers</h5>
+            <h5 class="mb-0">Top Performers</h5>
         </div>
         <div class="card-body" style="padding: 1rem;">
             @if($leaderboard->count() > 0)
@@ -348,7 +348,7 @@
 
     <!-- Info Card -->
     <div class="info-card">
-        <h6>📌 How Points Are Calculated</h6>
+        <h6>How Points Are Calculated</h6>
         <ul class="info-list">
             <li><strong>Daily Check-In:</strong> Up to 35 points per day (5+10+15+5)</li>
             <li><strong>Event Attendance:</strong> 50 points per event attended</li>

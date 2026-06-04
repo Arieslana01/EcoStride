@@ -45,7 +45,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header" style="background-color: var(--light-gray);">
-                    <h5 class="mb-0">🏆 Points Summary</h5>
+                    <h5 class="mb-0">Points Summary</h5>
                 </div>
                 <div class="card-body text-center">
                     <div style="font-size: 3rem; font-weight: bold; color: var(--primary-color); margin: 1rem 0;">

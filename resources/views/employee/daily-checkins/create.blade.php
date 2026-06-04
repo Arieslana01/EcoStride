@@ -302,24 +302,24 @@
     <!-- Info Card -->
     <div class="card" style="max-width: 700px; margin: 2rem auto 0;">
         <div class="card-header">
-            <h6 class="mb-0">📌 Important Information</h6>
+            <h6 class="mb-0">Important Information</h6>
         </div>
         <div class="card-body">
             <ul class="list-unstyled" style="margin: 0;">
                 <li class="mb-3">
-                    <strong>⏰ One Per Day</strong>
+                    <strong>One Per Day</strong>
                     <p class="text-muted mb-0">You can submit only one check-in per day (UTC).</p>
                 </li>
                 <li class="mb-3">
-                    <strong>🎯 Track Progress</strong>
+                    <strong>Track Progress</strong>
                     <p class="text-muted mb-0">Monitor your points and climb the leaderboard!</p>
                 </li>
                 <li class="mb-3">
-                    <strong>🌱 Be Sustainable</strong>
+                    <strong>Be Sustainable</strong>
                     <p class="text-muted mb-0">Every small action contributes to a greener workplace.</p>
                 </li>
                 <li>
-                    <strong>🏆 Earn Rewards</strong>
+                    <strong>Earn Rewards</strong>
                     <p class="text-muted mb-0">Accumulate points and earn recognition!</p>
                 </li>
             </ul>

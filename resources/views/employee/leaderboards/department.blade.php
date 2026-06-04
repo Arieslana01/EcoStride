@@ -274,10 +274,10 @@
         <p class="leaderboard-subtitle">See how your department ranks in sustainability!</p>
         <div class="view-toggle">
             <a href="{{ route('leaderboards.individual') }}" class="btn @if(request()->routeIs('leaderboards.individual')) active @endif">
-                👤 Individual
+                Individual
             </a>
             <a href="{{ route('leaderboards.department') }}" class="btn @if(request()->routeIs('leaderboards.department')) active @endif">
-                🏢 Department
+                Department
             </a>
         </div>
     </div>
@@ -310,7 +310,7 @@
     <!-- Department Rankings -->
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">📊 Department Rankings</h5>
+            <h5 class="mb-0">Department Rankings</h5>
         </div>
         <div class="card-body" style="padding: 1rem;">
             @if(count($leaderboard) > 0)
@@ -366,7 +366,7 @@
     @if(isset($avgLeaderboard) && count($avgLeaderboard) > 0)
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">📈 Average Points per Employee</h5>
+                <h5 class="mb-0">Average Points per Employee</h5>
             </div>
             <div class="card-body" style="padding: 1rem;">
                 <div class="leaderboard-list">
@@ -396,7 +396,7 @@
 
     <!-- Info Card -->
     <div class="info-card">
-        <h6>📌 How Points Are Calculated</h6>
+        <h6>How Points Are Calculated</h6>
         <ul class="info-list">
             <li><strong>Total Points:</strong> Sum of all employees' daily check-ins + event attendance</li>
             <li><strong>Ranking:</strong> Departments ranked by cumulative points</li>
