@@ -43,12 +43,12 @@
         }
 
         .view-toggle .btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: var(--primary-color);
             color: white;
         }
 
         .current-dept-card {
-            background: linear-gradient(135deg, rgba(90, 45, 145, 0.08) 0%, rgba(40, 199, 217, 0.08) 100%);
+            background: rgba(90, 45, 145, 0.06);
             border: 2px solid var(--primary-color);
             border-radius: 16px;
             padding: 1.5rem;
@@ -146,7 +146,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.silver {
@@ -154,7 +154,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.bronze {
@@ -162,16 +162,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.number {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: var(--dark-gray);
+            color: var(--primary-color);
             font-size: 1.25rem;
+            font-weight: 700;
         }
 
         .entry-dept-name {
@@ -270,7 +267,7 @@
 
     <!-- Header -->
     <div class="leaderboard-header">
-        <h1 class="leaderboard-title">🏢 Department Leaderboard</h1>
+        <h1 class="leaderboard-title">Department Leaderboard</h1>
         <p class="leaderboard-subtitle">See how your department ranks in sustainability!</p>
         <div class="view-toggle">
             <a href="{{ route('leaderboards.individual') }}" class="btn @if(request()->routeIs('leaderboards.individual')) active @endif">
@@ -285,13 +282,13 @@
     <!-- Current Department Info -->
     @if($currentUserDeptRank)
         <div class="current-dept-card">
-            <div class="rank-display @if($currentUserDeptRank->rank <= 3) top-rank @endif">
+            <div class="rank-display @if($currentUserDeptRank->rank <= 3) top-rank @endif" style="font-weight: 800; color: var(--primary-color);">
                 @if($currentUserDeptRank->rank == 1)
-                    🥇
+                    1st
                 @elseif($currentUserDeptRank->rank == 2)
-                    🥈
+                    2nd
                 @elseif($currentUserDeptRank->rank == 3)
-                    🥉
+                    3rd
                 @else
                     #{{ $currentUserDeptRank->rank }}
                 @endif
@@ -319,11 +316,11 @@
                         <div class="leaderboard-entry @if(auth()->user()->department === $dept->department) current-dept @endif">
                             <div class="rank-badge @if($dept->rank == 1) gold @elseif($dept->rank == 2) silver @elseif($dept->rank == 3) bronze @else number @endif">
                                 @if($dept->rank == 1)
-                                    🥇
+                                    1st
                                 @elseif($dept->rank == 2)
-                                    🥈
+                                    2nd
                                 @elseif($dept->rank == 3)
-                                    🥉
+                                    3rd
                                 @else
                                     #{{ $dept->rank }}
                                 @endif
@@ -332,12 +329,12 @@
                                 <p class="entry-dept-name">
                                     {{ $dept->department }}
                                     @if(auth()->user()->department === $dept->department)
-                                        <span style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; margin-left: 0.5rem;">(You)</span>
+                                        <span style="color: var(--primary-color); font-weight: 600; margin-left: 0.5rem;">(You)</span>
                                     @endif
                                 </p>
                             </div>
                             <div class="entry-employee-count">
-                                {{ $dept->employee_count }} 👥
+                                {{ $dept->employee_count }} employees
                             </div>
                             <div class="entry-points">{{ $dept->total_points }} pts</div>
                         </div>
@@ -370,21 +367,21 @@
             </div>
             <div class="card-body" style="padding: 1rem;">
                 <div class="leaderboard-list">
-                    @foreach($avgLeaderboard->take(5) as $dept)
+                    @foreach($avgLeaderboard->take(5) as $index => $dept)
                         <div class="leaderboard-entry @if(auth()->user()->department === $dept->department) current-dept @endif">
                             <div class="rank-badge number">
-                                🔹
+                                #{{ $index + 1 }}
                             </div>
                             <div>
                                 <p class="entry-dept-name">
                                     {{ $dept->department }}
                                     @if(auth()->user()->department === $dept->department)
-                                        <span style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; margin-left: 0.5rem;">(You)</span>
+                                        <span style="color: var(--primary-color); font-weight: 600; margin-left: 0.5rem;">(You)</span>
                                     @endif
                                 </p>
                             </div>
                             <div class="entry-employee-count">
-                                {{ $dept->employee_count }} 👥
+                                {{ $dept->employee_count }} employees
                             </div>
                             <div class="entry-points">{{ $dept->avg_points }} pts/avg</div>
                         </div>

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mb-4">
-        <h2>➕ Create New Employee</h2>
+        <h2>Create New Employee</h2>
     </div>
 
     <div class="card">
@@ -89,10 +89,10 @@
                 <!-- Buttons -->
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-primary">
-                        ✓ Create Employee
+                        Create Employee
                     </button>
                     <a href="{{ route('admin.employees.index') }}" class="btn btn-secondary">
-                        ← Cancel
+                        Cancel
                     </a>
                 </div>
             </form>

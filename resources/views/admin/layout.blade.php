@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - EcoStride Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root {
             --primary-color: #5A2D91;
@@ -19,7 +20,7 @@
         }
 
         .navbar {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: var(--primary-color);
             color: white;
             padding: 1rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -73,13 +74,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: var(--primary-color);
             border: none;
             color: white;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+            background: #4a207b;
             color: white;
         }
 
@@ -135,8 +136,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-                🌍 EcoStride Admin
+            <a class="navbar-brand fw-bold" href="{{ url('/') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                <x-application-logo style="height: 28px; width: 28px;" />
+                <span>EcoStride Admin</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -165,24 +167,24 @@
                     <li>
                         <a href="{{ route('admin.dashboard') }}" 
                            class="@if(request()->routeIs('admin.dashboard')) active @endif">
-                            📊 Dashboard
+                            Dashboard
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.employees.index') }}" 
                            class="@if(request()->routeIs('admin.employees.*')) active @endif">
-                            👥 Employees
+                            Employees
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.events.index') }}" 
                            class="@if(request()->routeIs('admin.events.*')) active @endif">
-                            🎉 Events
+                            Events
                         </a>
                     </li>
                     <li>
                         <a href="#" class="@if(request()->routeIs('admin.reports.*')) active @endif">
-                            📈 Reports
+                            Reports
                         </a>
                     </li>
                 </ul>

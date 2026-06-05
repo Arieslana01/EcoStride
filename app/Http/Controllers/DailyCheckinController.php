@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DailyCheckin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DailyCheckinController extends Controller
@@ -30,7 +31,7 @@ class DailyCheckinController extends Controller
     /**
      * Show the form for creating a new daily checkin.
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         $userId = auth()->id();
         $today = Carbon::today();

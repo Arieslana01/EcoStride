@@ -88,9 +88,9 @@
         .hero-image {
             position: relative;
             height: 450px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-image img {
@@ -212,7 +212,7 @@
 
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
 
@@ -227,7 +227,8 @@
             text-decoration: none;
             color: inherit;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: stretch;
             height: 100%;
         }
 
@@ -238,8 +239,8 @@
         }
 
         .action-image {
-            width: 100%;
-            height: 160px;
+            width: 220px;
+            flex-shrink: 0;
             background: linear-gradient(135deg, var(--light-gray) 0%, #f0f0f0 100%);
             display: flex;
             align-items: center;
@@ -247,19 +248,24 @@
             font-size: 0.9rem;
             color: #999;
             overflow: hidden;
+            position: relative;
         }
 
         .action-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .action-content {
-            padding: 1.75rem;
+            padding: 1.5rem;
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
         .action-title {
@@ -274,17 +280,16 @@
             font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 1rem;
-            flex: 1;
             line-height: 1.5;
         }
 
         .action-points {
-            display: inline-block;
+            align-self: flex-start;
             background: var(--secondary-color);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
         }
 
@@ -590,6 +595,15 @@
                 grid-template-columns: 1fr;
             }
 
+            .action-card {
+                flex-direction: column;
+            }
+
+            .action-image {
+                width: 100%;
+                height: 180px;
+            }
+
             .events-carousel {
                 margin-left: -1rem;
                 margin-right: -1rem;
@@ -623,6 +637,23 @@
                 font-size: 1.25rem;
             }
         }
+
+        /* ===== HERO STATIC WIDGET ===== */
+        .sustainability-simple-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .simple-vector-svg {
+            width: 85%;
+            height: 85%;
+            max-width: 360px;
+            filter: drop-shadow(0 15px 35px rgba(90, 45, 145, 0.08));
+        }
     </style>
 
     <div class="dashboard-container">
@@ -637,8 +668,38 @@
             </div>
 
             <div class="hero-image">
-                <div class="hero-image-placeholder">
-                    [Sustainability Hero Image]
+                <div class="sustainability-simple-container">
+                    <!-- Simple static vector laptop and leaf -->
+                    <svg viewBox="0 0 200 160" class="simple-vector-svg">
+                        <!-- Laptop screen outline -->
+                        <rect x="35" y="25" width="130" height="85" rx="8" fill="#5A2D91" opacity="0.08" />
+                        <rect x="40" y="30" width="120" height="75" rx="6" fill="#ffffff" stroke="#5A2D91" stroke-width="3" />
+                        
+                        <!-- Laptop keyboard base -->
+                        <path d="M20 110 L180 110 L190 120 L10 120 Z" fill="#28C7D9" opacity="0.2" />
+                        <path d="M25 110 L175 110 L185 118 L15 118 Z" fill="#ffffff" stroke="#28C7D9" stroke-width="3" stroke-linejoin="round" />
+                        
+                        <!-- Laptop trackpad -->
+                        <rect x="85" y="112" width="30" height="4" rx="2" fill="#28C7D9" />
+                        
+                        <!-- Sustainability Leaf inside the screen (Purple, Pink, Blue gradients) -->
+                        <g transform="translate(100, 68) scale(0.4)">
+                            <!-- Purple Leaf shadow/glow -->
+                            <path d="M0 -60 C 45 -20, 45 40, 0 80 C -45 40, -45 -20, 0 -60 Z" fill="#5A2D91" opacity="0.15" />
+                            <!-- Pink/Blue Leaf -->
+                            <path d="M0 -50 C 35 -15, 35 35, 0 70 C -35 35, -35 -15, 0 -50 Z" fill="url(#leaf-grad-simple)" />
+                            <!-- Leaf stem -->
+                            <path d="M0 -30 L0 80" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+                        </g>
+                        
+                        <!-- Color definitions -->
+                        <defs>
+                            <linearGradient id="leaf-grad-simple" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#E91E8F" />
+                                <stop offset="100%" stop-color="#28C7D9" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -685,7 +746,7 @@
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
                         <div class="action-image">
-                            [Reusable Bottle Image]
+                            <img src="{{ asset('images/actions/tumbler.png') }}" alt="Bring Tumbler">
                         </div>
                         <div class="action-content">
                             <h3 class="action-title">Bring Tumbler</h3>
@@ -698,7 +759,7 @@
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
                         <div class="action-image">
-                            [Public Transport Image]
+                            <img src="{{ asset('images/actions/commute.png') }}" alt="Public Transport / Bicycle">
                         </div>
                         <div class="action-content">
                             <h3 class="action-title">Public Transport / Bicycle</h3>
@@ -711,7 +772,7 @@
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
                         <div class="action-image">
-                            [Exercise Image]
+                            <img src="{{ asset('images/actions/exercise.png') }}" alt="Exercise Today">
                         </div>
                         <div class="action-content">
                             <h3 class="action-title">Exercise Today</h3>
@@ -724,7 +785,7 @@
                 <a href="{{ route('checkins.create') }}" style="text-decoration: none; color: inherit;">
                     <div class="action-card">
                         <div class="action-image">
-                            [Lunch Box Image]
+                            <img src="{{ asset('images/actions/lunch.png') }}" alt="Bring Lunch Box">
                         </div>
                         <div class="action-content">
                             <h3 class="action-title">Bring Lunch Box</h3>
@@ -746,7 +807,13 @@
                     @foreach($upcomingEvents as $event)
                         <div class="event-card">
                             <div class="event-image">
-                                [{{ $event->category }} Event Image]
+                                @if($event->image)
+                                    <img src="{{ asset('images/events/' . $event->image) }}" alt="{{ $event->title }}">
+                                @else
+                                    <div style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                                        {{ $event->category }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="event-content">
                                 <span class="event-badge">{{ $event->category }}</span>
@@ -764,16 +831,20 @@
                                         <span class="event-detail-icon"><i class="bi bi-geo-alt"></i></span>
                                         <span>{{ $event->location }}</span>
                                     </div>
+                                    <div class="event-detail-item">
+                                        <span class="event-detail-icon"><i class="bi bi-people"></i></span>
+                                        <span>{{ $event->getAvailableSlots() }} / {{ $event->quota }} slots</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="event-footer">
-                                <button class="btn-join">Join Event</button>
+                                <a href="{{ route('events.show', $event) }}" class="btn-join" style="display: block; text-align: center; text-decoration: none;">View & Join</a>
                             </div>
                         </div>
                     @endforeach
                 </div>
                 <div style="margin-top: 1.5rem;">
-                    <a href="#" class="view-all-link">
+                    <a href="{{ route('events.index') }}" class="view-all-link">
                         View all events <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>

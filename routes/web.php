@@ -34,6 +34,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/individual', [LeaderboardController::class, 'individual'])->name('individual');
         Route::get('/department', [LeaderboardController::class, 'department'])->name('department');
     });
+
+    // Employee Events
+    Route::prefix('events')->name('events.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\EmployeeEventController::class, 'index'])->name('index');
+        Route::get('/my-events', [\App\Http\Controllers\EmployeeEventController::class, 'myEvents'])->name('my-events');
+        Route::get('/{event}', [\App\Http\Controllers\EmployeeEventController::class, 'show'])->name('show');
+        Route::post('/{event}/join', [\App\Http\Controllers\EmployeeEventController::class, 'join'])->name('join');
+    });
 });
 
 // Admin routes
@@ -45,6 +53,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Event Management
     Route::resource('events', EventController::class);
+    Route::post('/registrations/{registration}/attendance', [EventController::class, 'markAttendance'])->name('events.attendance');
 });
 
 require __DIR__.'/auth.php';

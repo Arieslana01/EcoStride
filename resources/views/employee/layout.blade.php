@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - EcoStride</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root {
             --primary-color: #5A2D91;
@@ -53,10 +54,8 @@
         .navbar-brand {
             font-size: 1.25rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--accent-color);
+            text-decoration: none;
         }
 
         .nav-links {
@@ -89,7 +88,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-color);
             border-radius: 1.5px;
         }
         
@@ -98,12 +97,16 @@
             align-items: center;
             gap: 1rem;
         }
+
+        .dropdown {
+            position: relative;
+        }
         
         .nav-user-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -160,12 +163,12 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: var(--primary-color);
             color: white;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+            background: #4a207b;
             color: white;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(90, 45, 145, 0.3);
@@ -237,7 +240,7 @@
         .bg-success { background-color: #28a745 !important; }
         .bg-danger { background-color: #dc3545 !important; }
         .bg-warning { background-color: #ffc107 !important; color: var(--dark-gray) !important; }
-        .bg-primary { background: linear-gradient(135deg, var(--primary-color), var(--accent-color)) !important; }
+        .bg-primary { background: var(--primary-color) !important; }
 
         /* iOS-style Table */
         .table {
@@ -371,42 +374,54 @@
     <!-- iPhone-style Header -->
     <nav class="navbar">
         <div class="navbar-container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                🌍 EcoStride
+            <a class="navbar-brand" href="{{ url('/') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                <x-application-logo style="height: 28px; width: 28px;" />
+                <span>EcoStride</span>
             </a>
             <div class="nav-links">
                 <a href="{{ route('dashboard') }}" 
                    class="@if(request()->routeIs('dashboard')) active @endif">
-                    📊 Dashboard
+                    Dashboard
                 </a>
                 <a href="{{ route('checkins.index') }}" 
                    class="@if(request()->routeIs('checkins.*')) active @endif">
-                    ✅ Check-In
+                    Check-In
                 </a>
                 <a href="{{ route('leaderboards.individual') }}" 
                    class="@if(request()->routeIs('leaderboards.*')) active @endif">
-                    🏆 Leaderboard
+                    Leaderboard
                 </a>
-                <div class="nav-user">
+                <a href="{{ route('events.index') }}" 
+                   class="@if(request()->routeIs('events.index') || request()->routeIs('events.show')) active @endif">
+                    Events
+                </a>
+                <a href="{{ route('events.my-events') }}" 
+                   class="@if(request()->routeIs('events.my-events')) active @endif">
+                    My Events
+                </a>
+                <div class="nav-user" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
                     <div class="nav-user-avatar">
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     </div>
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle" style="color: var(--dark-gray); text-decoration: none;" data-bs-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle" @click.prevent="open = !open" style="color: var(--dark-gray); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 4px;">
                             {{ auth()->user()->name }}
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="width: 14px; height: 14px; fill: currentColor; margin-left: 2px;">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end" x-show="open" x-transition style="display: block; position: absolute; right: 0; top: 100%; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: var(--ios-shadow-lg); padding: 0.5rem 0; min-width: 120px; z-index: 1000; margin-top: 0.5rem; list-style: none;">
                             <li>
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}">👤 Profile</a>
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}" style="display: block; padding: 0.5rem 1rem; color: var(--dark-gray); text-decoration: none; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">Profile</a>
                             </li>
                             <li>
-                                <hr class="dropdown-divider">
+                                <hr class="dropdown-divider" style="margin: 0.5rem 0; border: 0; border-top: 1px solid #e5e7eb;">
                             </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                                     @csrf
-                                    <button type="submit" class="dropdown-item" style="cursor: pointer;">
-                                        🚪 Logout
+                                    <button type="submit" class="dropdown-item" style="cursor: pointer; width: 100%; text-align: left; background: none; border: none; display: block; padding: 0.5rem 1rem; color: var(--dark-gray); transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
+                                        Logout
                                     </button>
                                 </form>
                             </li>

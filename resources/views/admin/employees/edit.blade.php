@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mb-4">
-        <h2>✏️ Edit Employee: {{ $employee->name }}</h2>
+        <h2>Edit Employee: {{ $employee->name }}</h2>
     </div>
 
     <div class="card">
@@ -94,10 +94,10 @@
                 <!-- Buttons -->
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-primary">
-                        ✓ Update Employee
+                        Update Employee
                     </button>
                     <a href="{{ route('admin.employees.index') }}" class="btn btn-secondary">
-                        ← Cancel
+                        Cancel
                     </a>
                 </div>
             </form>

@@ -17,11 +17,12 @@ class Event extends Model
         'quota',
         'points',
         'status',
+        'image',
     ];
 
     protected $casts = [
         'event_date' => 'date',
-        'event_time' => 'time',
+        'event_time' => 'datetime',
     ];
 
     /**

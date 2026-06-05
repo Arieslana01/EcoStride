@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create([
             'role' => 'employee',
         ]);
+
+        // Seed events
+        $this->call(EventSeeder::class);
     }
 }

@@ -60,7 +60,7 @@
         }
 
         .activity-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -68,10 +68,12 @@
             height: 50px;
             background: var(--light-gray);
             border-radius: 12px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
         }
 
         .activity-selector input[type="checkbox"]:checked ~ .activity-icon {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: var(--primary-color);
             color: white;
         }
 
@@ -152,7 +154,7 @@
 
         .max-points {
             grid-column: 1 / -1;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: var(--primary-color);
             color: white;
             padding: 1rem;
             border-radius: 12px;
@@ -207,7 +209,7 @@
 
     <!-- Hero Section -->
     <div class="checkin-hero">
-        <h1>✅ Today's Check-In</h1>
+        <h1>Today's Check-In</h1>
         <p>Select activities you completed to earn sustainability points!</p>
     </div>
 
@@ -220,7 +222,7 @@
             <!-- Tumbler -->
             <label class="activity-selector">
                 <input type="checkbox" name="tumbler" value="1" style="width: 20px; height: 20px;">
-                <div class="activity-icon">🥤</div>
+                <div class="activity-icon"><i class="bi bi-cup-straw"></i></div>
                 <div class="activity-content">
                     <div class="activity-name">Bring Tumbler</div>
                     <div class="activity-desc">Use a reusable water bottle</div>
@@ -231,7 +233,7 @@
             <!-- Public Transport / Bicycle -->
             <label class="activity-selector">
                 <input type="checkbox" name="public_transport_bicycle" value="1" style="width: 20px; height: 20px;">
-                <div class="activity-icon">🚴</div>
+                <div class="activity-icon"><i class="bi bi-bicycle"></i></div>
                 <div class="activity-content">
                     <div class="activity-name">Eco-Friendly Commute</div>
                     <div class="activity-desc">Public transport or bicycle</div>
@@ -242,7 +244,7 @@
             <!-- Exercise -->
             <label class="activity-selector">
                 <input type="checkbox" name="exercise" value="1" style="width: 20px; height: 20px;">
-                <div class="activity-icon">💪</div>
+                <div class="activity-icon"><i class="bi bi-heart-pulse"></i></div>
                 <div class="activity-content">
                     <div class="activity-name">Exercise Today</div>
                     <div class="activity-desc">Stay active and healthy</div>
@@ -253,7 +255,7 @@
             <!-- Lunch Box -->
             <label class="activity-selector">
                 <input type="checkbox" name="lunch_box" value="1" style="width: 20px; height: 20px;">
-                <div class="activity-icon">🍱</div>
+                <div class="activity-icon"><i class="bi bi-box-seam"></i></div>
                 <div class="activity-content">
                     <div class="activity-name">Bring Lunch Box</div>
                     <div class="activity-desc">Reusable food container</div>
@@ -264,22 +266,22 @@
 
         <!-- Points Summary -->
         <div class="summary-card">
-            <h3>💡 Points Breakdown</h3>
+            <h3>Points Breakdown</h3>
             <div class="summary-list">
                 <div class="summary-item">
-                    <span>🥤 Tumbler</span>
+                    <span>Tumbler</span>
                     <span class="points">+5 pts</span>
                 </div>
                 <div class="summary-item">
-                    <span>🚴 Eco Commute</span>
+                    <span>Eco Commute</span>
                     <span class="points">+10 pts</span>
                 </div>
                 <div class="summary-item">
-                    <span>💪 Exercise</span>
+                    <span>Exercise</span>
                     <span class="points">+15 pts</span>
                 </div>
                 <div class="summary-item">
-                    <span>🍱 Lunch Box</span>
+                    <span>Lunch Box</span>
                     <span class="points">+5 pts</span>
                 </div>
                 <div class="max-points">
@@ -294,7 +296,7 @@
                 Cancel
             </a>
             <button type="submit" class="btn btn-primary">
-                ✓ Submit Check-In
+                Submit Check-In
             </button>
         </div>
     </form>
@@ -342,41 +344,6 @@
                 if (document.querySelector('input[name="public_transport_bicycle"]').checked) points += 10;
                 if (document.querySelector('input[name="exercise"]').checked) points += 15;
                 if (document.querySelector('input[name="lunch_box"]').checked) points += 5;
-                console.log('Current points: ' + points);
-            }
-        </script>
-    @endpush
-@endsection
-                    <h6 class="mb-0">🎓 Tips for Success</h6>
-                </div>
-                <div class="card-body">
-                    <p class="text-muted small mb-0">
-                        Start with one or two activities and gradually build sustainable habits. 
-                        Remember, consistency is key to climbing the leaderboard!
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @push('scripts')
-        <script>
-            // Optional: Add real-time points calculation
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    calculatePoints();
-                });
-            });
-
-            function calculatePoints() {
-                let points = 0;
-                if (document.querySelector('input[name="tumbler"]').checked) points += 5;
-                if (document.querySelector('input[name="public_transport_bicycle"]').checked) points += 10;
-                if (document.querySelector('input[name="exercise"]').checked) points += 15;
-                if (document.querySelector('input[name="lunch_box"]').checked) points += 5;
-                
-                // Optional: Display current points
                 console.log('Current points: ' + points);
             }
         </script>

@@ -105,6 +105,9 @@ class DashboardController extends Controller
         $exercise = DailyCheckin::where('user_id', $userId)->where('exercise', true)->count();
         $lunch = DailyCheckin::where('user_id', $userId)->where('lunch_box', true)->count();
 
+        // Build leaderboard for dashboard preview (same data, aliased for view)
+        $leaderboard = $allPoints;
+
         return view('employee.dashboard', compact(
             'totalPoints',
             'monthlyCheckins',
@@ -117,7 +120,8 @@ class DashboardController extends Controller
             'tumbler',
             'transport',
             'exercise',
-            'lunch'
+            'lunch',
+            'leaderboard'
         ));
     }
 

@@ -3,172 +3,244 @@
 @section('title', 'Edit Event')
 
 @section('content')
-    <div class="mb-4">
-        <h2>✏️ Edit Event: {{ $event->title }}</h2>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <form method="POST" action="{{ route('admin.events.update', $event) }}">
-                @csrf
-                @method('PUT')
-
-                <!-- Title -->
-                <div class="mb-3">
-                    <label for="title" class="form-label fw-bold">Event Title *</label>
-                    <input type="text" 
-                           class="form-control @error('title') is-invalid @enderror" 
-                           id="title" 
-                           name="title" 
-                           value="{{ old('title', $event->title) }}"
-                           placeholder="Enter event title"
-                           required>
-                    @error('title')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Category -->
-                <div class="mb-3">
-                    <label for="category" class="form-label fw-bold">Category *</label>
-                    <select class="form-select @error('category') is-invalid @enderror" 
-                            id="category" 
-                            name="category" 
-                            required>
-                        <option value="">-- Select Category --</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category }}" @selected(old('category', $event->category) === $category)>
-                                {{ $category }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('category')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Description -->
-                <div class="mb-3">
-                    <label for="description" class="form-label fw-bold">Description</label>
-                    <textarea class="form-control @error('description') is-invalid @enderror" 
-                              id="description" 
-                              name="description" 
-                              rows="3"
-                              placeholder="Enter event description">{{ old('description', $event->description) }}</textarea>
-                    @error('description')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <hr>
-
-                <div class="row">
-                    <!-- Event Date -->
-                    <div class="col-md-6 mb-3">
-                        <label for="event_date" class="form-label fw-bold">Event Date *</label>
-                        <input type="date" 
-                               class="form-control @error('event_date') is-invalid @enderror" 
-                               id="event_date" 
-                               name="event_date" 
-                               value="{{ old('event_date', $event->event_date->format('Y-m-d')) }}"
-                               required>
-                        @error('event_date')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Event Time -->
-                    <div class="col-md-6 mb-3">
-                        <label for="event_time" class="form-label fw-bold">Event Time *</label>
-                        <input type="time" 
-                               class="form-control @error('event_time') is-invalid @enderror" 
-                               id="event_time" 
-                               name="event_time" 
-                               value="{{ old('event_time', $event->event_time->format('H:i')) }}"
-                               required>
-                        @error('event_time')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Location -->
-                <div class="mb-3">
-                    <label for="location" class="form-label fw-bold">Location *</label>
-                    <input type="text" 
-                           class="form-control @error('location') is-invalid @enderror" 
-                           id="location" 
-                           name="location" 
-                           value="{{ old('location', $event->location) }}"
-                           placeholder="Enter event location"
-                           required>
-                    @error('location')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <hr>
-
-                <div class="row">
-                    <!-- Quota -->
-                    <div class="col-md-6 mb-3">
-                        <label for="quota" class="form-label fw-bold">Participant Quota *</label>
-                        <input type="number" 
-                               class="form-control @error('quota') is-invalid @enderror" 
-                               id="quota" 
-                               name="quota" 
-                               value="{{ old('quota', $event->quota) }}"
-                               min="1"
-                               required>
-                        @error('quota')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Points -->
-                    <div class="col-md-6 mb-3">
-                        <label for="points" class="form-label fw-bold">Points Reward *</label>
-                        <input type="number" 
-                               class="form-control @error('points') is-invalid @enderror" 
-                               id="points" 
-                               name="points" 
-                               value="{{ old('points', $event->points) }}"
-                               min="0"
-                               required>
-                        @error('points')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Status -->
-                <div class="mb-3">
-                    <label for="status" class="form-label fw-bold">Status *</label>
-                    <select class="form-select @error('status') is-invalid @enderror" 
-                            id="status" 
-                            name="status" 
-                            required>
-                        @foreach($statuses as $value => $label)
-                            <option value="{{ $value }}" @selected(old('status', $event->status) === $value)>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('status')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Buttons -->
-                <div class="d-flex gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">
-                        ✓ Update Event
-                    </button>
-                    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">
-                        ← Cancel
-                    </a>
-                </div>
-            </form>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Edit Event</h2>
+            <p class="text-muted mb-0" style="font-size: 0.9rem;">Editing: <strong>{{ $event->title }}</strong></p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.events.show', $event) }}" class="btn btn-sm" style="background: var(--secondary-color); color: white; border: none;">
+                <i class="bi bi-eye"></i> View Attendance
+            </a>
+            <a href="{{ route('admin.events.index') }}" class="btn btn-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Back to Events
+            </a>
         </div>
     </div>
+
+    <form method="POST" action="{{ route('admin.events.update', $event) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="row g-4">
+            <!-- Left Column: Core Info -->
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header" style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem;">
+                        <h6 class="mb-0 fw-bold" style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-info-circle"></i> Event Information
+                        </h6>
+                    </div>
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-semibold">Event Title <span class="text-danger">*</span></label>
+                            <input type="text"
+                                   class="form-control @error('title') is-invalid @enderror"
+                                   id="title"
+                                   name="title"
+                                   value="{{ old('title', $event->title) }}"
+                                   placeholder="e.g. EcoStride Tennis Tournament 2025"
+                                   required>
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-4">
+                            <label for="category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                            <select class="form-select @error('category') is-invalid @enderror"
+                                    id="category"
+                                    name="category"
+                                    required>
+                                <option value="">-- Select a Sport / Activity --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category }}" @selected(old('category', $event->category) === $category)>
+                                        {{ $category }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-0">
+                            <label for="description" class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                      id="description"
+                                      name="description"
+                                      rows="4"
+                                      placeholder="Describe the event, rules, what to bring, etc.">{{ old('description', $event->description) }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header" style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem;">
+                        <h6 class="mb-0 fw-bold" style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-calendar-event"></i> Schedule & Location
+                        </h6>
+                    </div>
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <div class="row g-3 mb-4">
+                            <!-- Event Date -->
+                            <div class="col-md-6">
+                                <label for="event_date" class="form-label fw-semibold">Event Date <span class="text-danger">*</span></label>
+                                <input type="date"
+                                       class="form-control @error('event_date') is-invalid @enderror"
+                                       id="event_date"
+                                       name="event_date"
+                                       value="{{ old('event_date', $event->event_date->format('Y-m-d')) }}"
+                                       required>
+                                @error('event_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Event Time -->
+                            <div class="col-md-6">
+                                <label for="event_time" class="form-label fw-semibold">Event Time <span class="text-danger">*</span></label>
+                                <input type="time"
+                                       class="form-control @error('event_time') is-invalid @enderror"
+                                       id="event_time"
+                                       name="event_time"
+                                       value="{{ old('event_time', $event->event_time->format('H:i')) }}"
+                                       required>
+                                @error('event_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-0">
+                            <label for="location" class="form-label fw-semibold">Location <span class="text-danger">*</span></label>
+                            <input type="text"
+                                   class="form-control @error('location') is-invalid @enderror"
+                                   id="location"
+                                   name="location"
+                                   value="{{ old('location', $event->location) }}"
+                                   placeholder="e.g. Court A, Green Sports Complex"
+                                   required>
+                            @error('location')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Settings & Image -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header" style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem;">
+                        <h6 class="mb-0 fw-bold" style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-sliders"></i> Settings
+                        </h6>
+                    </div>
+                    <div class="card-body" style="padding: 1.5rem;">
+                        <!-- Quota -->
+                        <div class="mb-4">
+                            <label for="quota" class="form-label fw-semibold">Participant Quota <span class="text-danger">*</span></label>
+                            <input type="number"
+                                   class="form-control @error('quota') is-invalid @enderror"
+                                   id="quota"
+                                   name="quota"
+                                   value="{{ old('quota', $event->quota) }}"
+                                   min="1"
+                                   required>
+                            @error('quota')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Points -->
+                        <div class="mb-4">
+                            <label for="points" class="form-label fw-semibold">Points Reward <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">+</span>
+                                <input type="number"
+                                       class="form-control @error('points') is-invalid @enderror"
+                                       id="points"
+                                       name="points"
+                                       value="{{ old('points', $event->points) }}"
+                                       min="0"
+                                       required>
+                                <span class="input-group-text">pts</span>
+                            </div>
+                            @error('points')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-0">
+                            <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+                            <select class="form-select @error('status') is-invalid @enderror"
+                                    id="status"
+                                    name="status"
+                                    required>
+                                @foreach($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(old('status', $event->status) === $value)>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner Image -->
+                <div class="card mb-4">
+                    <div class="card-header" style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem;">
+                        <h6 class="mb-0 fw-bold" style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-image"></i> Event Banner
+                        </h6>
+                    </div>
+                    <div class="card-body" style="padding: 1.5rem;">
+                        @if($event->image)
+                            <div class="mb-3">
+                                <img src="{{ asset('images/events/' . $event->image) }}"
+                                     alt="Current banner"
+                                     style="width: 100%; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb;">
+                                <small class="text-muted d-block mt-1">Current banner image</small>
+                            </div>
+                        @endif
+                        <div class="mb-0">
+                            <label for="image" class="form-label fw-semibold">Replace Image</label>
+                            <input type="file"
+                                   class="form-control @error('image') is-invalid @enderror"
+                                   id="image"
+                                   name="image"
+                                   accept="image/*">
+                            <small class="text-muted d-block mt-1">
+                                <i class="bi bi-info-circle"></i> Optional. Leave blank to keep the current image.
+                            </small>
+                            @error('image')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> Save Changes
+                    </button>
+                    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection

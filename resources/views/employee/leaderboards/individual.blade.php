@@ -43,12 +43,12 @@
         }
 
         .view-toggle .btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: var(--primary-color);
             color: white;
         }
 
         .current-user-card {
-            background: linear-gradient(135deg, rgba(90, 45, 145, 0.08) 0%, rgba(40, 199, 217, 0.08) 100%);
+            background: rgba(90, 45, 145, 0.06);
             border: 2px solid var(--primary-color);
             border-radius: 16px;
             padding: 1.5rem;
@@ -146,7 +146,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.silver {
@@ -154,7 +154,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.bronze {
@@ -162,16 +162,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
         }
 
         .rank-badge.number {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: var(--dark-gray);
+            color: var(--primary-color);
             font-size: 1.25rem;
+            font-weight: 700;
         }
 
         .entry-user-info {
@@ -282,13 +279,13 @@
     <!-- Current User Info -->
     @if($currentUserRank)
         <div class="current-user-card">
-            <div class="rank-display @if($currentUserRank->rank <= 3) top-rank @endif">
+            <div class="rank-display @if($currentUserRank->rank <= 3) top-rank @endif" style="font-weight: 800; color: var(--primary-color);">
                 @if($currentUserRank->rank == 1)
-                    🥇
+                    1st
                 @elseif($currentUserRank->rank == 2)
-                    🥈
+                    2nd
                 @elseif($currentUserRank->rank == 3)
-                    🥉
+                    3rd
                 @else
                     #{{ $currentUserRank->rank }}
                 @endif
@@ -316,11 +313,11 @@
                         <div class="leaderboard-entry @if(auth()->user()->id === $user->id) current-user @endif">
                             <div class="rank-badge @if($user->rank == 1) gold @elseif($user->rank == 2) silver @elseif($user->rank == 3) bronze @else number @endif">
                                 @if($user->rank == 1)
-                                    🥇
+                                    1st
                                 @elseif($user->rank == 2)
-                                    🥈
+                                    2nd
                                 @elseif($user->rank == 3)
-                                    🥉
+                                    3rd
                                 @else
                                     #{{ $user->rank }}
                                 @endif
@@ -329,7 +326,7 @@
                                 <p class="entry-user-name">
                                     {{ $user->name }}
                                     @if(auth()->user()->id === $user->id)
-                                        <span style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; margin-left: 0.5rem;">(You)</span>
+                                        <span style="color: var(--primary-color); font-weight: 600; margin-left: 0.5rem;">(You)</span>
                                     @endif
                                 </p>
                                 <p class="entry-user-dept">{{ $user->department }}</p>

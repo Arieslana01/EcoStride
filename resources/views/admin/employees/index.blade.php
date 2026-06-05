@@ -5,7 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">
-            👥 Employee Management
+            Employee Management
         </h2>
         <a href="{{ route('admin.employees.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i> Add New Employee
@@ -40,7 +40,7 @@
                                     <td>
                                         <a href="{{ route('admin.employees.edit', $employee) }}" 
                                            class="btn btn-sm btn-secondary me-2">
-                                            ✏️ Edit
+                                            Edit
                                         </a>
                                         <form action="{{ route('admin.employees.destroy', $employee) }}" 
                                               method="POST" 
@@ -49,7 +49,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger">
-                                                🗑️ Delete
+                                                Delete
                                             </button>
                                         </form>
                                     </td>

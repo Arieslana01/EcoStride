@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -50,17 +51,45 @@ class EventController extends Controller
             'category' => ['required', 'in:Tennis,Table Tennis,Padel,Mini Soccer,Yoga,Pilates'],
             'description' => ['nullable', 'string'],
             'event_date' => ['required', 'date', 'after_or_equal:today'],
-            'event_time' => ['required', 'date_format:H:i'],
+            'event_time' => ['required'],
             'location' => ['required', 'string', 'max:255'],
             'quota' => ['required', 'integer', 'min:1'],
             'points' => ['required', 'integer', 'min:0'],
             'status' => ['required', 'in:Open,Closed,Completed'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/events'), $filename);
+            $validated['image'] = $filename;
+        } else {
+            // Default to category default image
+            $categoryImages = [
+                'Tennis' => 'tennis.png',
+                'Table Tennis' => 'table_tennis.png',
+                'Padel' => 'padel.png',
+                'Mini Soccer' => 'mini_soccer.png',
+                'Yoga' => 'yoga.png',
+                'Pilates' => 'pilates.png',
+            ];
+            $validated['image'] = $categoryImages[$validated['category']] ?? null;
+        }
 
         Event::create($validated);
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully.');
+    }
+
+    /**
+     * Display a specific event's participants and details.
+     */
+    public function show(Event $event): View
+    {
+        $registrations = $event->registrations()->with('user')->get();
+        return view('admin.events.show', compact('event', 'registrations'));
     }
 
     /**
@@ -96,12 +125,29 @@ class EventController extends Controller
             'category' => ['required', 'in:Tennis,Table Tennis,Padel,Mini Soccer,Yoga,Pilates'],
             'description' => ['nullable', 'string'],
             'event_date' => ['required', 'date'],
-            'event_time' => ['required', 'date_format:H:i'],
+            'event_time' => ['required'],
             'location' => ['required', 'string', 'max:255'],
             'quota' => ['required', 'integer', 'min:1'],
             'points' => ['required', 'integer', 'min:0'],
             'status' => ['required', 'in:Open,Closed,Completed'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/events'), $filename);
+
+            // Delete old custom image if exists
+            $defaults = ['tennis.png', 'table_tennis.png', 'padel.png', 'mini_soccer.png', 'yoga.png', 'pilates.png'];
+            if ($event->image && !in_array($event->image, $defaults)) {
+                $oldPath = public_path('images/events/' . $event->image);
+                if (file_exists($oldPath)) {
+                    @unlink($oldPath);
+                }
+            }
+            $validated['image'] = $filename;
+        }
 
         $event->update($validated);
 
@@ -116,10 +162,36 @@ class EventController extends Controller
     {
         // Delete related registrations first
         $event->registrations()->delete();
+
+        // Delete custom image if exists
+        $defaults = ['tennis.png', 'table_tennis.png', 'padel.png', 'mini_soccer.png', 'yoga.png', 'pilates.png'];
+        if ($event->image && !in_array($event->image, $defaults)) {
+            $oldPath = public_path('images/events/' . $event->image);
+            if (file_exists($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
         
         $event->delete();
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully.');
+    }
+
+    /**
+     * Mark attendance for a registration.
+     */
+    public function markAttendance(Request $request, EventRegistration $registration)
+    {
+        $validated = $request->validate([
+            'attendance' => ['required', 'in:Present,Absent'],
+        ]);
+
+        $registration->update([
+            'attendance' => $validated['attendance'],
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Attendance marked as ' . $validated['attendance'] . ' successfully.');
     }
 }
