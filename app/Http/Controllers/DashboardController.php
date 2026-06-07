@@ -57,16 +57,12 @@ class DashboardController extends Controller
             ->get();
 
         // Individual ranking
-        $allPoints = DailyCheckin::select(
-            'users.id',
-            'users.name',
-            DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points')
-        )
-            ->leftJoin('users', 'daily_checkins.user_id', '=', 'users.id')
-            ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-            ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
-            ->where('users.role', 'employee')
-            ->groupBy('users.id', 'users.name')
+        $allPoints = \App\Models\User::where('role', 'employee')
+            ->select('users.id', 'users.name')
+            ->selectRaw('
+                COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0) as total_points
+            ')
             ->orderByDesc('total_points')
             ->get();
 
@@ -76,15 +72,12 @@ class DashboardController extends Controller
         $userRank = $userRank !== false ? $userRank + 1 : 'N/A';
 
         // Department ranking
-        $deptPoints = DB::table('users')
-            ->where('role', 'employee')
-            ->select(
-                'department',
-                DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points')
-            )
-            ->leftJoin('daily_checkins', 'users.id', '=', 'daily_checkins.user_id')
-            ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-            ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
+        $deptPoints = \App\Models\User::where('role', 'employee')
+            ->select('department')
+            ->selectRaw('
+                SUM(COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0)) as total_points
+            ')
             ->groupBy('department')
             ->orderByDesc('total_points')
             ->get();
@@ -142,28 +135,21 @@ class DashboardController extends Controller
 
         // Most active employee
         $mostActiveEmployee = \App\Models\User::where('role', 'employee')
-            ->select(
-                'users.id',
-                'users.name',
-                DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points')
-            )
-            ->leftJoin('daily_checkins', 'users.id', '=', 'daily_checkins.user_id')
-            ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-            ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
-            ->groupBy('users.id', 'users.name')
+            ->select('users.id', 'users.name')
+            ->selectRaw('
+                COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0) as total_points
+            ')
             ->orderByDesc('total_points')
             ->first();
 
         // Most active department
-        $mostActiveDept = DB::table('users')
-            ->where('role', 'employee')
-            ->select(
-                'department',
-                DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points')
-            )
-            ->leftJoin('daily_checkins', 'users.id', '=', 'daily_checkins.user_id')
-            ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-            ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
+        $mostActiveDept = \App\Models\User::where('role', 'employee')
+            ->select('department')
+            ->selectRaw('
+                SUM(COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0)) as total_points
+            ')
             ->groupBy('department')
             ->orderByDesc('total_points')
             ->first();

@@ -15,17 +15,11 @@ class LeaderboardController extends Controller
     {
         // Get all employees with their total points, ranked
         $leaderboard = User::where('role', 'employee')
-            ->select(
-                'users.id',
-                'users.name',
-                'users.department',
-                'users.role',
-                DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points')
-            )
-            ->leftJoin('daily_checkins', 'users.id', '=', 'daily_checkins.user_id')
-            ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-            ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
-            ->groupBy('users.id', 'users.name', 'users.department', 'users.role')
+            ->select('id', 'name', 'department', 'role')
+            ->selectRaw('
+                COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0) as total_points
+            ')
             ->orderByDesc('total_points')
             ->get();
 
@@ -60,10 +54,10 @@ class LeaderboardController extends Controller
         foreach ($departments as $dept) {
             $totalPoints = User::where('role', 'employee')
                 ->where('department', $dept)
-                ->select(DB::raw('COALESCE(SUM(daily_checkins.total_points), 0) + COALESCE(SUM(CASE WHEN event_registrations.attendance = "Present" THEN events.points ELSE 0 END), 0) as total_points'))
-                ->leftJoin('daily_checkins', 'users.id', '=', 'daily_checkins.user_id')
-                ->leftJoin('event_registrations', 'users.id', '=', 'event_registrations.user_id')
-                ->leftJoin('events', 'event_registrations.event_id', '=', 'events.id')
+                ->selectRaw('
+                    SUM(COALESCE((SELECT SUM(total_points) FROM daily_checkins WHERE daily_checkins.user_id = users.id), 0) +
+                    COALESCE((SELECT SUM(events.points) FROM event_registrations JOIN events ON event_registrations.event_id = events.id WHERE event_registrations.user_id = users.id AND event_registrations.attendance = "Present"), 0)) as total_points
+                ')
                 ->value('total_points');
 
             $employeeCount = User::where('role', 'employee')
