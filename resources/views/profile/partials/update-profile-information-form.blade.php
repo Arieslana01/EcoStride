@@ -24,6 +24,24 @@
         </div>
 
         <div>
+            <x-input-label for="department" :value="__('Department')" />
+            <select id="department" name="department" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                <option value="" disabled {{ old('department', $user->department) ? '' : 'selected' }}>Select a Department</option>
+                <option value="Customer Excellence" {{ old('department', $user->department) == 'Customer Excellence' ? 'selected' : '' }}>Customer Excellence</option>
+                <option value="Finance" {{ old('department', $user->department) == 'Finance' ? 'selected' : '' }}>Finance</option>
+                <option value="Information Technology (IT)" {{ old('department', $user->department) == 'Information Technology (IT)' ? 'selected' : '' }}>Information Technology (IT)</option>
+                <option value="Marketing" {{ old('department', $user->department) == 'Marketing' ? 'selected' : '' }}>Marketing</option>
+                <option value="Human Resources (HR)" {{ old('department', $user->department) == 'Human Resources (HR)' ? 'selected' : '' }}>Human Resources (HR)</option>
+                <option value="Supply Chain" {{ old('department', $user->department) == 'Supply Chain' ? 'selected' : '' }}>Supply Chain</option>
+                <option value="Quality Assurance" {{ old('department', $user->department) == 'Quality Assurance' ? 'selected' : '' }}>Quality Assurance</option>
+                <option value="Research & Development (R&D)" {{ old('department', $user->department) == 'Research & Development (R&D)' ? 'selected' : '' }}>Research & Development (R&D)</option>
+                <option value="Operations" {{ old('department', $user->department) == 'Operations' ? 'selected' : '' }}>Operations</option>
+                <option value="Procurement" {{ old('department', $user->department) == 'Procurement' ? 'selected' : '' }}>Procurement</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('department')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

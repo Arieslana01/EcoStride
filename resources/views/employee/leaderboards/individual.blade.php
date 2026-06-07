@@ -16,7 +16,7 @@
         }
 
         .leaderboard-subtitle {
-            color: #999;
+            color: var(--dark-gray);
             margin-bottom: 1.5rem;
         }
 

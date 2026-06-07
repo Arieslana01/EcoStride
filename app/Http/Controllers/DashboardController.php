@@ -14,8 +14,12 @@ class DashboardController extends Controller
     /**
      * Display employee dashboard.
      */
-    public function employee(): View
+    public function employee(): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
+        if (auth()->user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
         $userId = auth()->id();
 
         // Total accumulated points

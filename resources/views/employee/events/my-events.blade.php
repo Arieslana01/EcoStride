@@ -4,7 +4,7 @@
 
 @section('content')
     <div style="margin-bottom: 2rem;">
-        <h2 class="fw-bold mb-1" style="color: var(--dark-gray); font-size: 1.75rem;">My Registered Events</h2>
+        <h2 class="fw-bold mb-1" style="color: var(--dark-gray); font-size: 1.75rem; font-weight: 900 !important;">My Registered Events</h2>
         <p class="text-muted mb-0">Track your registrations, approval status, and points earned from sports activities.</p>
     </div>
 
@@ -66,11 +66,11 @@
                     <table class="table align-middle" style="margin-bottom: 0;">
                         <thead class="table-light">
                             <tr>
-                                <th style="padding: 0.9rem 1.5rem;">Event</th>
-                                <th style="padding: 0.9rem 1.5rem;">Category</th>
-                                <th style="padding: 0.9rem 1.5rem;">Date & Time</th>
-                                <th style="padding: 0.9rem 1.5rem;">Approval Status</th>
-                                <th style="padding: 0.9rem 1.5rem; text-align: right;">Points</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 35%;">Event</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 15%;">Category</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 20%;">Date & Time</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 20%;">Approval Status</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 10%; text-align: right;">Points</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,26 +101,27 @@
                                                 <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #dcfce7; color: #166534; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; width: fit-content;">
                                                     <i class="bi bi-check-circle-fill"></i> Approved — You're in!
                                                 </span>
-                                                <small class="text-muted" style="font-size: 0.75rem; margin-left: 0.25rem;">Admin confirmed your registration</small>
+                                                <small class="text-muted" style="font-size: 0.75rem;">Admin confirmed your registration</small>
                                             </div>
                                         @elseif($reg->attendance === 'Absent')
                                             <div style="display: flex; flex-direction: column; gap: 0.2rem;">
                                                 <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #fee2e2; color: #991b1b; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; width: fit-content;">
                                                     <i class="bi bi-x-circle-fill"></i> Declined
                                                 </span>
-                                                <small class="text-muted" style="font-size: 0.75rem; margin-left: 0.25rem;">Your registration was not accepted</small>
+                                                <small class="text-muted" style="font-size: 0.75rem;">Your registration was not accepted</small>
                                             </div>
                                         @else
                                             <div style="display: flex; flex-direction: column; gap: 0.2rem;">
                                                 <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: #fff3e0; color: #c2410c; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; width: fit-content;">
                                                     <i class="bi bi-hourglass-split"></i> Pending Approval
                                                 </span>
-                                                <small class="text-muted" style="font-size: 0.75rem; margin-left: 0.25rem;">Waiting for admin to review</small>
+                                                <small class="text-muted" style="font-size: 0.75rem;">Waiting for admin to review</small>
                                             </div>
                                         @endif
                                     </td>
-                                    <td style="padding: 1rem 1.5rem; text-align: right; font-weight: 700; color: var(--primary-color);">
-                                        +{{ $reg->event->points }} pts
+                                    <td style="padding: 1rem 1.5rem; text-align: right;">
+                                        <div style="font-weight: 700; color: var(--primary-color);">+{{ $reg->event->points }} pts</div>
+                                        <div style="font-size: 0.7rem; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.2rem;">(Potential)</div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -151,11 +152,11 @@
                     <table class="table align-middle" style="margin-bottom: 0;">
                         <thead class="table-light">
                             <tr>
-                                <th style="padding: 0.9rem 1.5rem;">Event</th>
-                                <th style="padding: 0.9rem 1.5rem;">Category</th>
-                                <th style="padding: 0.9rem 1.5rem;">Date</th>
-                                <th style="padding: 0.9rem 1.5rem;">Status</th>
-                                <th style="padding: 0.9rem 1.5rem; text-align: right;">Points Earned</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 40%;">Event</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 15%;">Category</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 20%;">Date</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 15%;">Status</th>
+                                <th style="padding: 0.9rem 1.5rem; width: 10%; text-align: right;">Points Earned</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -22,25 +22,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Employee features
-    Route::prefix('checkins')->name('checkins.')->group(function () {
-        Route::get('/', [DailyCheckinController::class, 'index'])->name('index');
-        Route::get('/create', [DailyCheckinController::class, 'create'])->name('create');
-        Route::post('/', [DailyCheckinController::class, 'store'])->name('store');
-        Route::get('/{checkin}', [DailyCheckinController::class, 'show'])->name('show');
-    });
+    Route::middleware([\App\Http\Middleware\EnsureEmployee::class])->group(function () {
+        Route::prefix('checkins')->name('checkins.')->group(function () {
+            Route::get('/', [DailyCheckinController::class, 'index'])->name('index');
+            Route::get('/create', [DailyCheckinController::class, 'create'])->name('create');
+            Route::post('/', [DailyCheckinController::class, 'store'])->name('store');
+            Route::get('/{checkin}', [DailyCheckinController::class, 'show'])->name('show');
+        });
 
-    // Leaderboards
-    Route::prefix('leaderboards')->name('leaderboards.')->group(function () {
-        Route::get('/individual', [LeaderboardController::class, 'individual'])->name('individual');
-        Route::get('/department', [LeaderboardController::class, 'department'])->name('department');
-    });
+        // Leaderboards
+        Route::prefix('leaderboards')->name('leaderboards.')->group(function () {
+            Route::get('/individual', [LeaderboardController::class, 'individual'])->name('individual');
+            Route::get('/department', [LeaderboardController::class, 'department'])->name('department');
+        });
 
-    // Employee Events
-    Route::prefix('events')->name('events.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\EmployeeEventController::class, 'index'])->name('index');
-        Route::get('/my-events', [\App\Http\Controllers\EmployeeEventController::class, 'myEvents'])->name('my-events');
-        Route::get('/{event}', [\App\Http\Controllers\EmployeeEventController::class, 'show'])->name('show');
-        Route::post('/{event}/join', [\App\Http\Controllers\EmployeeEventController::class, 'join'])->name('join');
+        // Employee Events
+        Route::prefix('events')->name('events.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\EmployeeEventController::class, 'index'])->name('index');
+            Route::get('/my-events', [\App\Http\Controllers\EmployeeEventController::class, 'myEvents'])->name('my-events');
+            Route::get('/{event}', [\App\Http\Controllers\EmployeeEventController::class, 'show'])->name('show');
+            Route::post('/{event}/join', [\App\Http\Controllers\EmployeeEventController::class, 'join'])->name('join');
+        });
     });
 });
 

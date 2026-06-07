@@ -16,6 +16,25 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Department -->
+        <div class="mt-4">
+            <x-input-label for="department" :value="__('Department')" />
+            <select id="department" name="department" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                <option value="" disabled {{ old('department') ? '' : 'selected' }}>Select a Department</option>
+                <option value="Customer Excellence" {{ old('department') == 'Customer Excellence' ? 'selected' : '' }}>Customer Excellence</option>
+                <option value="Finance" {{ old('department') == 'Finance' ? 'selected' : '' }}>Finance</option>
+                <option value="Information Technology (IT)" {{ old('department') == 'Information Technology (IT)' ? 'selected' : '' }}>Information Technology (IT)</option>
+                <option value="Marketing" {{ old('department') == 'Marketing' ? 'selected' : '' }}>Marketing</option>
+                <option value="Human Resources (HR)" {{ old('department') == 'Human Resources (HR)' ? 'selected' : '' }}>Human Resources (HR)</option>
+                <option value="Supply Chain" {{ old('department') == 'Supply Chain' ? 'selected' : '' }}>Supply Chain</option>
+                <option value="Quality Assurance" {{ old('department') == 'Quality Assurance' ? 'selected' : '' }}>Quality Assurance</option>
+                <option value="Research & Development (R&D)" {{ old('department') == 'Research & Development (R&D)' ? 'selected' : '' }}>Research & Development (R&D)</option>
+                <option value="Operations" {{ old('department') == 'Operations' ? 'selected' : '' }}>Operations</option>
+                <option value="Procurement" {{ old('department') == 'Procurement' ? 'selected' : '' }}>Procurement</option>
+            </select>
+            <x-input-error :messages="$errors->get('department')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

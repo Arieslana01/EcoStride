@@ -668,39 +668,7 @@
             </div>
 
             <div class="hero-image">
-                <div class="sustainability-simple-container">
-                    <!-- Simple static vector laptop and leaf -->
-                    <svg viewBox="0 0 200 160" class="simple-vector-svg">
-                        <!-- Laptop screen outline -->
-                        <rect x="35" y="25" width="130" height="85" rx="8" fill="#5A2D91" opacity="0.08" />
-                        <rect x="40" y="30" width="120" height="75" rx="6" fill="#ffffff" stroke="#5A2D91" stroke-width="3" />
-                        
-                        <!-- Laptop keyboard base -->
-                        <path d="M20 110 L180 110 L190 120 L10 120 Z" fill="#28C7D9" opacity="0.2" />
-                        <path d="M25 110 L175 110 L185 118 L15 118 Z" fill="#ffffff" stroke="#28C7D9" stroke-width="3" stroke-linejoin="round" />
-                        
-                        <!-- Laptop trackpad -->
-                        <rect x="85" y="112" width="30" height="4" rx="2" fill="#28C7D9" />
-                        
-                        <!-- Sustainability Leaf inside the screen (Purple, Pink, Blue gradients) -->
-                        <g transform="translate(100, 68) scale(0.4)">
-                            <!-- Purple Leaf shadow/glow -->
-                            <path d="M0 -60 C 45 -20, 45 40, 0 80 C -45 40, -45 -20, 0 -60 Z" fill="#5A2D91" opacity="0.15" />
-                            <!-- Pink/Blue Leaf -->
-                            <path d="M0 -50 C 35 -15, 35 35, 0 70 C -35 35, -35 -15, 0 -50 Z" fill="url(#leaf-grad-simple)" />
-                            <!-- Leaf stem -->
-                            <path d="M0 -30 L0 80" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.6" />
-                        </g>
-                        
-                        <!-- Color definitions -->
-                        <defs>
-                            <linearGradient id="leaf-grad-simple" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stop-color="#E91E8F" />
-                                <stop offset="100%" stop-color="#28C7D9" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+                <img src="{{ asset('images/hero.png') }}" alt="Sustainability" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
         </div>
 

@@ -6,6 +6,7 @@
     <title>@yield('title') - EcoStride Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #5A2D91;
@@ -183,9 +184,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="@if(request()->routeIs('admin.reports.*')) active @endif">
-                            Reports
-                        </a>
+                        <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                            @csrf
+                            <button type="submit" style="background: none; border: none; width: 100%; text-align: left; padding: 1rem; color: #dc3545; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                                <i class="bi bi-box-arrow-right" style="margin-right: 0.5rem;"></i> Logout
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>

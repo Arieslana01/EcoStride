@@ -5,7 +5,7 @@
 @section('content')
     <!-- Page Header -->
     <div style="margin-bottom: 2rem;">
-        <h2 class="fw-bold mb-1" style="color: var(--dark-gray); font-size: 1.75rem;">Wellness & Sports Activities</h2>
+        <h2 class="fw-bold mb-1" style="color: var(--dark-gray); font-size: 1.75rem; font-weight: 900 !important;">Wellness & Sports Activities</h2>
         <p class="text-muted mb-0">Register for upcoming activities, stay fit, and boost your leaderboard score.</p>
     </div>
 

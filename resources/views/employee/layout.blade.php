@@ -444,11 +444,7 @@
             </div>
         @endif
 
-        @if (session('success'))
-            <div class="alert alert-success">
-                ✓ {{ session('success') }}
-            </div>
-        @endif
+
 
         @if (session('error'))
             <div class="alert alert-danger">
@@ -472,6 +468,23 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Registration Sent!',
+                    text: "{!! session('success') !!}",
+                    icon: 'success',
+                    confirmButtonColor: '#5A2D91',
+                    confirmButtonText: 'Awesome!',
+                    customClass: {
+                        popup: 'rounded-4'
+                    }
+                });
+            });
+        </script>
+    @endif
     @stack('scripts')
 </body>
 </html>

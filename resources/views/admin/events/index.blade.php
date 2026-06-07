@@ -17,7 +17,7 @@
         <div class="card-body" style="padding: 0;">
             @if($events->count() > 0)
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle" style="margin-bottom: 0;">
+                    <table class="table table-hover align-middle text-nowrap" style="margin-bottom: 0;">
                         <thead class="table-light">
                             <tr>
                                 <th style="padding: 1rem 1.25rem;">Event Name</th>
@@ -38,12 +38,12 @@
                                 @endphp
                                 <tr>
                                     <td style="padding: 1rem 1.25rem;">
-                                        <div class="fw-bold">
+                                        <div class="fw-bold text-wrap" style="min-width: 200px;">
                                             <a href="{{ route('admin.events.show', $event) }}" style="text-decoration: none; color: var(--primary-color);">
                                                 {{ $event->title }}
                                             </a>
                                         </div>
-                                        <small class="text-muted"><i class="bi bi-geo-alt"></i> {{ $event->location }}</small>
+                                        <small class="text-muted"><i class="bi bi-geo-alt"></i> {{ Str::limit($event->location, 30) }}</small>
                                     </td>
                                     <td style="padding: 1rem 1.25rem;">
                                         <span class="badge bg-secondary">{{ $event->category }}</span>
@@ -53,7 +53,7 @@
                                         <small class="text-muted">{{ $event->event_time->format('H:i') }}</small>
                                     </td>
                                     <td style="padding: 1rem 1.25rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
                                             <span class="badge" style="background: #e8f5e9; color: #2e7d32; font-size: 0.78rem;">
                                                 {{ $approvedCount }} approved
                                             </span>
@@ -62,7 +62,7 @@
                                                     {{ $pendingCount }} pending
                                                 </span>
                                             @endif
-                                            <span class="text-muted" style="font-size: 0.8rem;">/ {{ $event->quota }} quota</span>
+                                            <span class="text-muted ms-1" style="font-size: 0.8rem;">/ {{ $event->quota }} quota</span>
                                         </div>
                                     </td>
                                     <td style="padding: 1rem 1.25rem;">
@@ -81,7 +81,7 @@
                                         <div style="display: flex; gap: 0.4rem; justify-content: flex-end; align-items: center;">
                                             <a href="{{ route('admin.events.show', $event) }}"
                                                class="btn btn-sm"
-                                               style="background: var(--primary-color); color: white; border: none; position: relative;">
+                                               style="background: var(--primary-color); color: white; border: none; position: relative; white-space: nowrap;">
                                                 <i class="bi bi-people"></i> Approvals
                                                 @if($pendingCount > 0)
                                                     <span style="position: absolute; top: -6px; right: -6px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">{{ $pendingCount }}</span>
